@@ -1,0 +1,44 @@
+{
+  "name": "ecommerce-playwright-framework",
+  "version": "1.0.0",
+  "description": "Playwright TypeScript ecommerce automation framework for a mock ecommerce app.",
+  "private": true,
+  "scripts": {
+    "mock:app": "node mock-app/server.mjs",
+    "test": "playwright test -c config/playwright.config.ts",
+    "test:smoke": "playwright test -c config/playwright.config.ts --grep @smoke",
+    "test:regression": "playwright test -c config/playwright.config.ts --grep @regression",
+    "test:dev": "cross-env TEST_ENV=dev playwright test -c config/playwright.config.ts",
+    "test:staging": "cross-env TEST_ENV=staging playwright test -c config/playwright.config.ts",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report reports/html",
+    "allure:generate": "allure generate reports/allure-results --clean -o reports/allure-report",
+    "allure:open": "allure open reports/allure-report",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "ecommerce",
+    "automation"
+  ],
+  "devDependencies": {
+    "@eslint/js": "^9.14.0",
+    "@faker-js/faker": "^9.2.0",
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.9.0",
+    "@typescript-eslint/eslint-plugin": "^8.14.0",
+    "@typescript-eslint/parser": "^8.14.0",
+    "allure-commandline": "^2.32.0",
+    "allure-playwright": "^3.0.6",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.14.0",
+    "eslint-plugin-playwright": "^2.0.0",
+    "http-server": "^14.1.1",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3"
+  }
+}
