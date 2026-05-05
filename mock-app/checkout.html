@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Penguin Picks Checkout</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header data-header></header>
+    <main>
+      <h1>Penguin checkout</h1>
+      <form data-checkout-form>
+        <label>First name <input name="firstName" /></label>
+        <label>Last name <input name="lastName" /></label>
+        <label>Address <input name="address" /></label>
+        <label>City <input name="city" /></label>
+        <label>Postal code <input name="postalCode" /></label>
+        <label>Country <input name="country" /></label>
+        <button type="submit">Place order</button>
+      </form>
+      <p role="alert"></p>
+      <p data-testid="order-confirmation"></p>
+    </main>
+    <span data-testid="app-ready"></span>
+    <script src="/app.js"></script>
+  </body>
+</html>

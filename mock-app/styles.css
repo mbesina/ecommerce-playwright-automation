@@ -1,0 +1,81 @@
+body {
+  background: #f8fafc;
+  color: #111827;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+header {
+  align-items: center;
+  background: #0f172a;
+  border-bottom: 4px solid #38bdf8;
+  display: flex;
+  gap: 16px;
+  padding: 16px 24px;
+}
+
+main {
+  max-width: 880px;
+  padding: 24px;
+}
+
+h1 {
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.lede {
+  color: #475569;
+  line-height: 1.5;
+  max-width: 640px;
+}
+
+form {
+  display: grid;
+  gap: 12px;
+  max-width: 420px;
+}
+
+input {
+  display: block;
+  margin-top: 4px;
+  padding: 8px;
+  width: 100%;
+}
+
+button,
+a {
+  color: #0284c7;
+  cursor: pointer;
+}
+
+header a {
+  color: #e0f2fe;
+  font-weight: 700;
+}
+
+header span {
+  color: #f8fafc;
+}
+
+button {
+  background: #0284c7;
+  border: 0;
+  border-radius: 6px;
+  color: #ffffff;
+  padding: 8px 12px;
+}
+
+[data-product-list] {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 24px;
+}
+
+article {
+  background: #ffffff;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  padding: 16px;
+}
