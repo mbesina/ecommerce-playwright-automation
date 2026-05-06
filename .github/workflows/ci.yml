@@ -66,9 +66,9 @@ jobs:
       - name: Run Playwright shard
         run: |
           if [ -n "${{ inputs.grep }}" ]; then
-            npx playwright test -c config/playwright.config.ts --shard=${{ matrix.shard }}/4 --grep "${{ inputs.grep }}"
+            npx playwright test -c config/playwright.config.ts --shard=${{ matrix.shard }}/2 --grep "${{ inputs.grep }}"
           else
-            npx playwright test -c config/playwright.config.ts --shard=${{ matrix.shard }}/4
+            npx playwright test -c config/playwright.config.ts --shard=${{ matrix.shard }}/2
           fi
       - name: Upload Playwright artifacts
         if: always()
