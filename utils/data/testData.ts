@@ -46,8 +46,8 @@ export function createCheckoutAddress(overrides: Partial<CheckoutAddress> = {}):
 }
 
 export const validUser: UserCredentials = {
-  email: 'maybuyer@example.com',
-  password: 'Password123!',
-  firstName: 'May',
-  lastName: 'Buyer'
+  email: process.env.TEST_USER_EMAIL || 'maybuyer@example.com',
+  password: process.env.TEST_USER_PASSWORD || 'Password123!',
+  firstName: process.env.TEST_USER_FIRST_NAME || 'May',
+  lastName: process.env.TEST_USER_LAST_NAME || 'Buyer'
 };
