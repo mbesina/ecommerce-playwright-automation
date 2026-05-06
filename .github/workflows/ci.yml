@@ -1,0 +1,81 @@
+name: Ecommerce Playwright CI
+
+on:
+  push:
+    branches:
+      - main
+  # Commented out the schedule trigger for now, can be enabled later if needed
+  # schedule:
+  #   - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      test_env:
+        description: 'Target test environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - staging
+      grep:
+        description: 'Optional tag filter, for example @smoke or @regression (leave empty to run all tests)'
+        required: false
+        default: ''
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.test_env || 'dev' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+    env:
+      TEST_ENV: ${{ inputs.test_env || 'dev' }}
+      PLAYWRIGHT_WORKERS: 2
+      BASE_URL: ${{ vars.BASE_URL }}
+      API_BASE_URL: ${{ vars.API_BASE_URL }}
+      TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+      TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+      TEST_USER_FIRST_NAME: ${{ secrets.TEST_USER_FIRST_NAME }}
+      TEST_USER_LAST_NAME: ${{ secrets.TEST_USER_LAST_NAME }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - name: Run Playwright shard
+        run: |
+          if [ -n "${{ inputs.grep }}" ]; then
+            npx playwright test -c config/playwright.config.ts --shard=${{ matrix.shard }}/4 --grep "${{ inputs.grep }}"
+          else
+            npx playwright test -c config/playwright.config.ts --shard=${{ matrix.shard }}/4
+          fi
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts-${{ matrix.shard }}
+          path: |
+            reports/
+            test-results/
+          retention-days: 7

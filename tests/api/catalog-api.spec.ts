@@ -2,9 +2,11 @@ import { test, expect } from '@tests/fixtures/base.fixture';
 import { EcommerceApiClient } from '@api/clients/ecommerceApiClient';
 import { products } from '@utils/data/testData';
 
+const apiBaseURL = process.env.API_BASE_URL || process.env.BASE_URL || 'http://127.0.0.1:4173';
+
 test.describe('Catalog API', () => {
   test('returns healthy mock app metadata @smoke @regression', async ({ request }) => {
-    const response = await request.get('/health');
+    const response = await request.get(new URL('/health', apiBaseURL).toString());
 
     await expect(response).toBeOK();
     expect(response.headers()['content-type']).toContain('application/json');
