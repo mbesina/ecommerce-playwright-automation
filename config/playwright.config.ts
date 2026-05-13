@@ -4,9 +4,11 @@ import path from 'node:path';
 
 const testEnv = process.env.TEST_ENV ?? 'dev';
 dotenv.config({ path: path.resolve(__dirname, `env/${testEnv}.env`) });
-dotenv.config();
+dotenv.config({ override: true });
 
-const baseURL = process.env.BASE_URL ?? 'http://127.0.0.1:4173';
+const baseURL = process.env.BASE_URL || 'http://127.0.0.1:4173';
+const isLocalBaseURL = /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?(\/|$)/.test(baseURL);
+const workers = process.env.PLAYWRIGHT_WORKERS ? Number(process.env.PLAYWRIGHT_WORKERS) : undefined;
 
 export default defineConfig({
   testDir: '../tests',
@@ -17,7 +19,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 4 : undefined,
+  workers: process.env.CI ? workers || 2 : undefined,
   outputDir: '../test-results',
   reporter: [
     ['list'],
@@ -42,10 +44,12 @@ export default defineConfig({
       use: { ...devices['Desktop Firefox'] }
     }
   ],
-  webServer: {
-    command: 'node ../mock-app/server.mjs',
-    url: baseURL,
-    reuseExistingServer: !process.env.CI,
-    timeout: 30_000
-  }
+  webServer: isLocalBaseURL
+    ? {
+        command: 'node ../mock-app/server.mjs',
+        url: baseURL,
+        reuseExistingServer: !process.env.CI,
+        timeout: 30_000
+      }
+    : undefined
 });
