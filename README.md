@@ -157,6 +157,7 @@ The workflow cancels older in-progress runs for the same branch when a newer run
 ## Code Quality
 
 ESLint is configured for TypeScript and Playwright. Rules prevent focused tests, skipped tests, and unused variables. Prettier handles formatting.
+
 ---
 
 # Reporting
