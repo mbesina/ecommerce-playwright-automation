@@ -10,6 +10,13 @@ Playwright TypeScript automation framework for a Penguin ecommerce app. It uses 
 - GitHub Actions workflow with linting, browser setup, sharded tests, and artifact upload.
 - HTML and Allure reporting with screenshots, videos, and traces retained on failure.
 
+## CI/CD Pipeline
+
+Automated Playwright execution using GitHub Actions with matrix strategy, lint validation, parallel execution, and artifact uploads.
+
+![GitHub Actions Workflow](docs/images/github-actions-workflow.png)
+
+
 ## Structure
 
 ```text
@@ -39,6 +46,19 @@ ecommerce-playwright-framework/
 ├── mock-app/
 └── .github/workflows/ci.yml
 ```
+
+### Framework Architecture
+
+Modular Playwright framework organized using:
+- reusable Page Objects
+- API helpers
+- fixtures
+- utilities
+- environment configuration
+- reporting support
+
+![Framework Structure](docs/images/framework-structure.png)
+
 
 ## Setup
 
@@ -72,6 +92,13 @@ npm run lint:fix
 npm run format
 npm run report
 ```
+
+### Cross-Browser Test Execution
+
+Smoke and regression suites executed across Chromium and Firefox using parallel Playwright workers.
+
+![Playwright Execution](docs/images/playwright-test-execution.png)
+
 
 Tags are standard title tags, for example `@smoke` and `@regression`.
 
@@ -130,3 +157,20 @@ The workflow cancels older in-progress runs for the same branch when a newer run
 ## Code Quality
 
 ESLint is configured for TypeScript and Playwright. Rules prevent focused tests, skipped tests, and unused variables. Prettier handles formatting.
+---
+
+# Reporting
+
+## Playwright HTML Reporting
+
+Built-in Playwright reporting with execution traces, screenshots, videos, and debugging support.
+
+![Playwright HTML Report](docs/images/playwright-html-report.png)
+
+---
+
+## Allure Reporting
+
+Integrated Allure reporting for advanced execution visibility, suite analytics, and enterprise-style reporting workflows.
+
+![Allure Report](docs/images/allure-report.png)
