@@ -57,7 +57,7 @@ Modular Playwright framework organized using:
 - environment configuration
 - reporting support
 
-![Framework Structure](docs/images/framework-structure.png)
+<img src="docs/images/framework-structure.png" width="280px"/>
 
 
 ## Setup
