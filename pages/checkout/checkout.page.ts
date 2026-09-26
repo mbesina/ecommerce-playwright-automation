@@ -4,10 +4,12 @@ import type { CheckoutAddress } from '../../utils/data/testData';
 export class CheckoutPage {
   readonly placeOrderButton: Locator;
   readonly orderConfirmation: Locator;
+  readonly validationAlert: Locator;
 
   constructor(private readonly page: Page) {
     this.placeOrderButton = page.getByRole('button', { name: /place order/i });
     this.orderConfirmation = page.getByTestId('order-confirmation');
+    this.validationAlert = page.getByRole('alert');
   }
 
   async goto(): Promise<void> {

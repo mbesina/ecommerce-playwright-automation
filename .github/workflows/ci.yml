@@ -1,6 +1,9 @@
 name: Ecommerce Playwright CI
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -55,6 +58,7 @@ jobs:
       TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
       TEST_USER_FIRST_NAME: ${{ secrets.TEST_USER_FIRST_NAME }}
       TEST_USER_LAST_NAME: ${{ secrets.TEST_USER_LAST_NAME }}
+      TEST_GREP: ${{ github.event_name == 'pull_request' && '@smoke' || inputs.grep }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -62,11 +66,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run typecheck
       - run: npx playwright install --with-deps
       - name: Run Playwright shard
         run: |
-          if [ -n "${{ inputs.grep }}" ]; then
-            npx playwright test -c config/playwright.config.ts --shard=${{ matrix.shard }}/2 --grep "${{ inputs.grep }}"
+          if [ -n "$TEST_GREP" ]; then
+            npx playwright test -c config/playwright.config.ts --shard=${{ matrix.shard }}/2 --grep "$TEST_GREP"
           else
             npx playwright test -c config/playwright.config.ts --shard=${{ matrix.shard }}/2
           fi
