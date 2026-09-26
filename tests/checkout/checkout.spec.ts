@@ -20,8 +20,7 @@ test.describe('Checkout', () => {
   test('requires shipping fields before order placement @regression', async ({
     authenticatedPage,
     cartPage,
-    checkoutPage,
-    page
+    checkoutPage
   }) => {
     await authenticatedPage.goto();
     await authenticatedPage.addToCart(products.keyChain);
@@ -29,6 +28,6 @@ test.describe('Checkout', () => {
     await cartPage.checkout();
     await checkoutPage.placeOrder();
 
-    await expect(page.getByRole('alert')).toHaveText('Complete all shipping fields');
+    await expect(checkoutPage.validationAlert).toHaveText('Complete all shipping fields');
   });
 });

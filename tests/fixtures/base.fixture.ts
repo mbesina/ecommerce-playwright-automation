@@ -3,6 +3,7 @@ import { LoginPage } from '@pages/auth/login.page';
 import { ProductPage } from '@pages/product/product.page';
 import { CartPage } from '@pages/cart/cart.page';
 import { CheckoutPage } from '@pages/checkout/checkout.page';
+import { EcommerceApiClient } from '@api/clients/ecommerceApiClient';
 import { validUser } from '@utils/data/testData';
 
 type EcommerceFixtures = {
@@ -26,11 +27,16 @@ export const test = base.extend<EcommerceFixtures>({
   checkoutPage: async ({ page }, use) => {
     await use(new CheckoutPage(page));
   },
-  authenticatedPage: async ({ page }, use) => {
-    await page.goto('/login.html');
-    await new LoginPage(page).login(validUser.email, validUser.password);
-    await expect(page.getByTestId('account-label')).toContainText(validUser.firstName);
-    await use(new ProductPage(page));
+  authenticatedPage: async ({ page, request }, use) => {
+    const user = await new EcommerceApiClient(request).login(validUser);
+    await page.addInitScript((sessionUser) => {
+      globalThis.localStorage.setItem('session', JSON.stringify(sessionUser));
+    }, user);
+
+    const productPage = new ProductPage(page);
+    await productPage.goto();
+    await expect(productPage.header.accountLabel).toContainText(user.firstName);
+    await use(productPage);
   }
 });
 

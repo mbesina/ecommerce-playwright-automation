@@ -16,7 +16,6 @@ Automated Playwright execution using GitHub Actions with matrix strategy, lint v
 
 ![GitHub Actions Workflow](docs/images/github-actions-workflow.png)
 
-
 ## Structure
 
 ```text
@@ -50,6 +49,7 @@ ecommerce-playwright-framework/
 ### Framework Architecture
 
 Modular Playwright framework organized using:
+
 - reusable Page Objects
 - API helpers
 - fixtures
@@ -58,7 +58,6 @@ Modular Playwright framework organized using:
 - reporting support
 
 <img src="docs/images/framework-structure.png" width="280px"/>
-
 
 ## Setup
 
@@ -99,7 +98,6 @@ Smoke and regression suites executed across Chromium and Firefox using parallel 
 
 ![Playwright Execution](docs/images/playwright-test-execution.png)
 
-
 Tags are standard title tags, for example `@smoke` and `@regression`.
 
 ## Environments
@@ -133,12 +131,12 @@ Configured artifacts:
 
 ## CI
 
-GitHub Actions currently runs on pushes to `main` and manual dispatch. A daily cron trigger is included as commented YAML and can be enabled later.
+GitHub Actions runs the smoke suite for pull requests to `main`, the full suite for pushes to `main`, and supports manual dispatch. A daily cron trigger is included as commented YAML and can be enabled later.
 
 The pipeline has two jobs:
 
 - `lint`: installs dependencies with `npm ci` and runs `npm run lint`.
-- `test`: waits for lint, installs Playwright browsers with system dependencies, then runs two Playwright shards in parallel.
+- `test`: waits for lint, runs `npm run typecheck`, installs Playwright browsers with system dependencies, then runs two Playwright shards in parallel.
 
 Manual dispatch supports:
 
